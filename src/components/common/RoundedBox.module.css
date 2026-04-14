@@ -1,0 +1,41 @@
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--cell-border-radius);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.empty {
+  border: 1.5px solid var(--border-color);
+  background: transparent;
+}
+
+.small {
+  width: var(--cell-inner-size);
+  height: var(--cell-inner-size);
+  font-size: var(--cell-emoji-size);
+  border-radius: 3px;
+}
+
+.medium {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+
+.large {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+.calendarPreview {
+  width: 26px;
+  height: 26px;
+  font-size: 13px;
+  border-radius: 6px;
+}

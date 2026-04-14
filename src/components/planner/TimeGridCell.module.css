@@ -1,0 +1,39 @@
+.cell {
+  width: var(--cell-outer-size);
+  height: var(--cell-outer-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--bg-primary);
+  border-right: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.cell:hover {
+  background: var(--hover-bg);
+}
+
+.cell.clickable {
+  cursor: crosshair;
+}
+
+.inner {
+  width: var(--cell-inner-size);
+  height: var(--cell-inner-size);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--cell-emoji-size);
+  user-select: none;
+  transition: background var(--transition-fast);
+}
+
+.inner.empty {
+  background: transparent;
+}
+
+.cell.highlighted .inner.empty {
+  background: rgba(51, 154, 240, 0.15);
+}
