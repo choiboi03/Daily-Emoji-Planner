@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useCallback, useState, type ReactNode } from 'react'
+import { createContext, useContext, useReducer, useCallback, useState, useRef, type ReactNode } from 'react'
 import type { PlannerState, DayData, Task, ColoringPhase, ViewMode } from '../types'
 import { createEmptyDay } from '../types'
 import { useAutoSave } from '../hooks/useAutoSave'
@@ -181,15 +181,20 @@ export function PlannerProvider({ children }: { children: ReactNode }) {
   });
   const [coloringState, setColoringState] = useState<ColoringPhase>({ phase: 'idle' });
 
+  const viewRef = useRef(viewMode);
+  const dateRef = useRef(selectedDate);
+
   const setViewMode = useCallback((mode: ViewMode) => {
+    viewRef.current = mode;
     setViewModeRaw(mode);
-    saveView(mode, mode === 'calendar' ? null : selectedDate);
-  }, [selectedDate]);
+    saveView(mode, mode === 'calendar' ? null : dateRef.current);
+  }, []);
 
   const setSelectedDate = useCallback((date: string | null) => {
+    dateRef.current = date;
     setSelectedDateRaw(date);
-    saveView(date ? 'daily' : viewMode, date);
-  }, [viewMode]);
+    saveView(date ? 'daily' : viewRef.current, date);
+  }, []);
 
   useAutoSave(state);
 
