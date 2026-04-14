@@ -82,14 +82,19 @@ export default function TaskPanel() {
         {tasks.length === 0 ? (
           <div className={styles.emptyState}>{i18n.noTasks}</div>
         ) : (
-          tasks.map(task => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              coloringState={coloringState}
-              onSelect={() => handleTaskClick(task)}
-            />
-          ))
+          <>
+            {tasks.map(task => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                coloringState={coloringState}
+                onSelect={() => handleTaskClick(task)}
+              />
+            ))}
+            {coloringState.phase === 'idle' && (
+              <div className={styles.hint}>Tap a task, then color the grid</div>
+            )}
+          </>
         )}
       </div>
 

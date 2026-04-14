@@ -24,7 +24,7 @@ export const i18n = {
   cancel: '취소',
   save: '저장',
   taskContent: '할 일을 입력하세요',
-  noTasks: '태스크를 추가해보세요',
+  noTasks: 'Tap + to add a task',
   backup: '백업',
   restore: '리스토어',
   lightMode: '라이트 모드',
