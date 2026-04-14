@@ -18,7 +18,7 @@ function AppContent() {
 
   return (
     <SettingsProvider settings={state.settings} onUpdate={handleSettingsUpdate}>
-      <div style={{ height: '100%', width: '100%' }}>
+      <div style={{ minHeight: '100dvh' }}>
         {viewMode === 'calendar' ? <CalendarView /> : <DailyPlannerView />}
       </div>
     </SettingsProvider>
