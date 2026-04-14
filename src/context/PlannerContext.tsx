@@ -148,15 +148,48 @@ export function usePlanner(): PlannerContextValue {
   return ctx;
 }
 
+const VIEW_KEY = 'daily-emoji-planner-view';
+
+function loadView(): { viewMode: ViewMode; selectedDate: string | null } {
+  try {
+    const raw = sessionStorage.getItem(VIEW_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch { /* ignore */ }
+  return { viewMode: 'calendar', selectedDate: null };
+}
+
+function saveView(viewMode: ViewMode, selectedDate: string | null) {
+  try {
+    sessionStorage.setItem(VIEW_KEY, JSON.stringify({ viewMode, selectedDate }));
+  } catch { /* ignore */ }
+}
+
 export function PlannerProvider({ children }: { children: ReactNode }) {
   const initial = loadState() || getInitialState();
   const [state, dispatch] = useReducer(reducer, initial);
 
+  const savedView = loadView();
   const now = new Date();
-  const [viewMode, setViewMode] = useState<ViewMode>('calendar');
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [currentMonth, setCurrentMonth] = useState({ year: now.getFullYear(), month: now.getMonth() });
+  const [viewMode, setViewModeRaw] = useState<ViewMode>(savedView.viewMode);
+  const [selectedDate, setSelectedDateRaw] = useState<string | null>(savedView.selectedDate);
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    if (savedView.selectedDate) {
+      const [y, m] = savedView.selectedDate.split('-').map(Number);
+      return { year: y, month: m - 1 };
+    }
+    return { year: now.getFullYear(), month: now.getMonth() };
+  });
   const [coloringState, setColoringState] = useState<ColoringPhase>({ phase: 'idle' });
+
+  const setViewMode = useCallback((mode: ViewMode) => {
+    setViewModeRaw(mode);
+    saveView(mode, mode === 'calendar' ? null : selectedDate);
+  }, [selectedDate]);
+
+  const setSelectedDate = useCallback((date: string | null) => {
+    setSelectedDateRaw(date);
+    saveView(date ? 'daily' : viewMode, date);
+  }, [viewMode]);
 
   useAutoSave(state);
 
