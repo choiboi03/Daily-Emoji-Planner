@@ -1,4 +1,5 @@
 import type { Task, DayData, DayPreview } from '../types'
+import { MINUTES_PER_CELL } from '../types'
 
 export function sortTasks(tasks: Task[]): Task[] {
   return [...tasks].sort((a, b) => {
@@ -18,7 +19,7 @@ export function sortTasks(tasks: Task[]): Task[] {
 
 export function getTaskDuration(task: Task): { hours: number; minutes: number } | null {
   if (task.startCell === null || task.endCell === null) return null;
-  const totalMinutes = (task.endCell - task.startCell + 1) * 20;
+  const totalMinutes = (task.endCell - task.startCell + 1) * MINUTES_PER_CELL;
   return {
     hours: Math.floor(totalMinutes / 60),
     minutes: totalMinutes % 60,

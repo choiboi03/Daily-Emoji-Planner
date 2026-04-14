@@ -41,11 +41,12 @@ export interface DayPreview {
 export type ViewMode = 'calendar' | 'daily';
 
 export const GRID_ROWS = 24;
-export const GRID_COLS = 5;
+export const GRID_COLS = 6;
 export const TOTAL_CELLS = GRID_ROWS * GRID_COLS;
+export const MINUTES_PER_CELL = 10;
 
 export function cellToTime(cellIndex: number): string {
-  const totalMinutes = cellIndex * 20;
+  const totalMinutes = cellIndex * MINUTES_PER_CELL;
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
