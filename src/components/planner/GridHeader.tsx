@@ -1,14 +1,9 @@
 import { usePlanner } from '../../context/PlannerContext'
 import { formatDisplayDate } from '../../utils/dateUtils'
 import BackIcon from '../common/icons/BackIcon'
-import ShareIcon from '../common/icons/ShareIcon'
 import styles from './GridHeader.module.css'
 
-interface GridHeaderProps {
-  onShare: () => void;
-}
-
-export default function GridHeader({ onShare }: GridHeaderProps) {
+export default function GridHeader() {
   const { selectedDate, setViewMode, cancelColoring } = usePlanner();
 
   const handleBack = () => {
@@ -26,9 +21,6 @@ export default function GridHeader({ onShare }: GridHeaderProps) {
           {selectedDate ? formatDisplayDate(selectedDate) : ''}
         </span>
       </div>
-      <button className={styles.shareBtn} onClick={onShare} aria-label="Share">
-        <ShareIcon size={20} />
-      </button>
     </div>
   );
 }

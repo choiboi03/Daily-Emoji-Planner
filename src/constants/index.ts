@@ -16,21 +16,10 @@ export const COLOR_PALETTE = [
 export const STORAGE_KEY = 'daily-emoji-planner-data';
 
 export const i18n = {
-  selectStart: '시작 시간을 선택하세요',
-  selectEnd: '끝 시간을 선택하세요',
-  addTask: '태스크 추가',
-  editTask: '태스크 편집',
-  deleteTask: '삭제',
-  cancel: '취소',
-  save: '저장',
-  taskContent: '할 일을 입력하세요',
+  selectStart: 'Select start time',
+  selectEnd: 'Select end time',
   noTasks: 'Tap + to add a task',
-  backup: '백업',
-  restore: '리스토어',
-  lightMode: '라이트 모드',
-  darkMode: '다크 모드',
-  settings: '설정',
-  share: '공유',
+  colorHint: 'Tap a task, then color the grid',
 } as const;
 
 export const DAYS_OF_WEEK = ['S', 'M', 'T', 'W', 'T', 'F', 'S'] as const;

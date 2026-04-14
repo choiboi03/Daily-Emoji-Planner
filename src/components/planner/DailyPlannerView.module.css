@@ -1,5 +1,5 @@
 .container {
-  min-height: 100dvh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background: var(--bg-primary);
@@ -9,6 +9,7 @@
   flex: 1;
   display: flex;
   overflow: hidden;
+  min-height: 0;
 }
 
 .leftPanel {
@@ -16,6 +17,7 @@
   flex-direction: column;
   border-right: 1px solid var(--border-light);
   min-width: 0;
+  overflow-y: auto;
 }
 
 .rightPanel {
@@ -23,10 +25,5 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-}
-
-.exportTarget {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
 }
