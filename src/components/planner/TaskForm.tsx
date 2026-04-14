@@ -54,14 +54,14 @@ export default function TaskForm({ task, onSave, onDelete, onClose }: TaskFormPr
         </div>
 
         <div className={styles.section}>
-          <span className={styles.label}>Preview & Content</span>
+          <span className={styles.label}>Emoji & Content</span>
           <div className={styles.previewRow}>
             <RoundedBox color={color} emoji={emoji} size="large" />
             <button
               className={styles.emojiBtn}
               onClick={() => setShowEmojiPicker(!showEmojiPicker)}
             >
-              {emoji || '+'}
+              {emoji || '😀'}
             </button>
             <input
               className={styles.input}
