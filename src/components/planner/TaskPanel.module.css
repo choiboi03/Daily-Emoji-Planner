@@ -33,6 +33,24 @@
   background: rgba(51, 154, 240, 0.1);
 }
 
+.textBtn {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  color: var(--text-secondary);
+}
+
+.textBtn:hover {
+  background: var(--hover-bg);
+}
+
+.textBtn.activeEdit {
+  color: #339AF0;
+  background: rgba(51, 154, 240, 0.1);
+}
+
 .list {
   padding: 0 12px 12px;
   display: flex;

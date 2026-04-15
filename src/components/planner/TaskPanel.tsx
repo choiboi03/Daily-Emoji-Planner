@@ -4,7 +4,6 @@ import { sortTasks } from '../../utils/taskUtils'
 import { i18n } from '../../constants'
 import type { Task } from '../../types'
 import PlusIcon from '../common/icons/PlusIcon'
-import EditIcon from '../common/icons/EditIcon'
 import TaskItem from './TaskItem'
 import TaskForm from './TaskForm'
 import styles from './TaskPanel.module.css'
@@ -55,7 +54,6 @@ export default function TaskPanel() {
       setEditingTask(task);
       return;
     }
-    // If we're in coloring mode and click the same task, cancel
     if (coloringState.phase !== 'idle' && coloringState.taskId === task.id) {
       cancelColoring();
     } else {
@@ -70,11 +68,10 @@ export default function TaskPanel() {
           <PlusIcon size={20} />
         </button>
         <button
-          className={`${styles.headerBtn} ${editMode ? styles.activeEdit : ''}`}
+          className={`${styles.textBtn} ${editMode ? styles.activeEdit : ''}`}
           onClick={() => setEditMode(!editMode)}
-          aria-label="Edit mode"
         >
-          <EditIcon size={20} />
+          {editMode ? 'Done' : 'Edit'}
         </button>
       </div>
 
@@ -91,8 +88,11 @@ export default function TaskPanel() {
                 onSelect={() => handleTaskClick(task)}
               />
             ))}
-            {coloringState.phase === 'idle' && (
+            {coloringState.phase === 'idle' && !editMode && (
               <div className={styles.hint}>Tap a task, then color the grid</div>
+            )}
+            {editMode && (
+              <div className={styles.hint}>Tap a task to edit, then press Done</div>
             )}
           </>
         )}
