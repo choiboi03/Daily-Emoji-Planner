@@ -1,9 +1,10 @@
-import { createContext, useContext, useReducer, useCallback, useState, useRef, type ReactNode } from 'react'
+import { createContext, useContext, useReducer, useCallback, useState, useRef, useEffect, type ReactNode } from 'react'
 import type { PlannerState, DayData, Task, ColoringPhase, ViewMode } from '../types'
 import { createEmptyDay } from '../types'
 import { useAutoSave } from '../hooks/useAutoSave'
 import { useColoringWorkflow } from '../hooks/useColoringWorkflow'
 import { loadState, getInitialState } from '../utils/storage'
+import { STORAGE_KEY } from '../constants'
 
 type Action =
   | { type: 'ADD_TASK'; date: string; task: Task }
@@ -148,11 +149,15 @@ export function usePlanner(): PlannerContextValue {
   return ctx;
 }
 
-const VIEW_KEY = 'daily-emoji-planner-view';
+// Stackd instance support: each widget gets its own view key, shared data
+const STACKD_ID = new URLSearchParams(window.location.search).get('stackd_id');
+const INSTANCE_VIEW_KEY = STACKD_ID
+  ? `emoji-planner-view-${STACKD_ID}`
+  : 'emoji-planner-view';
 
 function loadView(): { viewMode: ViewMode; selectedDate: string | null } {
   try {
-    const raw = sessionStorage.getItem(VIEW_KEY);
+    const raw = localStorage.getItem(INSTANCE_VIEW_KEY);
     if (raw) return JSON.parse(raw);
   } catch { /* ignore */ }
   return { viewMode: 'calendar', selectedDate: null };
@@ -160,7 +165,7 @@ function loadView(): { viewMode: ViewMode; selectedDate: string | null } {
 
 function saveView(viewMode: ViewMode, selectedDate: string | null) {
   try {
-    sessionStorage.setItem(VIEW_KEY, JSON.stringify({ viewMode, selectedDate }));
+    localStorage.setItem(INSTANCE_VIEW_KEY, JSON.stringify({ viewMode, selectedDate }));
   } catch { /* ignore */ }
 }
 
@@ -197,6 +202,22 @@ export function PlannerProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useAutoSave(state);
+
+  // Cross-widget data sync: when another widget writes shared data, hydrate this one
+  useEffect(() => {
+    const handler = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY && e.newValue) {
+        try {
+          const synced = JSON.parse(e.newValue) as PlannerState;
+          if (synced && typeof synced.version === 'number') {
+            dispatch({ type: 'HYDRATE', state: synced });
+          }
+        } catch { /* ignore bad data */ }
+      }
+    };
+    window.addEventListener('storage', handler);
+    return () => window.removeEventListener('storage', handler);
+  }, []);
 
   const onColoringComplete = useCallback((taskId: string, startCell: number, endCell: number) => {
     if (selectedDate) {
