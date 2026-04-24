@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { usePlanner } from '../../context/PlannerContext'
+import { useTranslation } from '../../context/SettingsContext'
 import { sortTasks } from '../../utils/taskUtils'
-import { i18n } from '../../constants'
 import type { Task } from '../../types'
 import PlusIcon from '../common/icons/PlusIcon'
 import TaskItem from './TaskItem'
@@ -10,6 +10,7 @@ import styles from './TaskPanel.module.css'
 
 export default function TaskPanel() {
   const { state, dispatch, selectedDate, coloringState, selectTask, cancelColoring } = usePlanner();
+  const t = useTranslation();
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [editMode, setEditMode] = useState(false);
@@ -64,20 +65,20 @@ export default function TaskPanel() {
   return (
     <div className={styles.panel}>
       <div className={styles.header}>
-        <button className={styles.headerBtn} onClick={() => setShowForm(true)} aria-label="Add task">
+        <button className={styles.headerBtn} onClick={() => setShowForm(true)} aria-label={t.addTask}>
           <PlusIcon size={20} />
         </button>
         <button
           className={`${styles.textBtn} ${editMode ? styles.activeEdit : ''}`}
           onClick={() => setEditMode(!editMode)}
         >
-          {editMode ? 'Done' : 'Edit'}
+          {editMode ? t.done : t.edit}
         </button>
       </div>
 
       <div className={styles.list}>
         {tasks.length === 0 ? (
-          <div className={styles.emptyState}>{i18n.noTasks}</div>
+          <div className={styles.emptyState}>{t.noTasks}</div>
         ) : (
           <>
             {tasks.map(task => (
@@ -89,10 +90,10 @@ export default function TaskPanel() {
               />
             ))}
             {coloringState.phase === 'idle' && !editMode && (
-              <div className={styles.hint}>Tap a task, then color the grid</div>
+              <div className={styles.hint}>{t.colorHint}</div>
             )}
             {editMode && (
-              <div className={styles.hint}>Tap a task to edit, then press Done</div>
+              <div className={styles.hint}>{t.editHint}</div>
             )}
           </>
         )}

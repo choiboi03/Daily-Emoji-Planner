@@ -5,19 +5,6 @@ export function formatDateKey(date: Date): string {
   return `${y}-${m}-${d}`;
 }
 
-export function formatDisplayDate(dateKey: string): string {
-  const [y, m, d] = dateKey.split('-');
-  return `${y}. ${Number(m)}. ${Number(d)}.`;
-}
-
-export function formatMonthYear(year: number, month: number): string {
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
-  ];
-  return `${monthNames[month]} ${year}`;
-}
-
 export function getCalendarDays(year: number, month: number): (number | null)[] {
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();

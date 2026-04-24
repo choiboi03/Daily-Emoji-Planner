@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import EmojiPicker, { type EmojiClickData, Theme } from 'emoji-picker-react'
-import { useSettings } from '../../context/SettingsContext'
+import { useSettings, useTranslation } from '../../context/SettingsContext'
 import { COLOR_PALETTE } from '../../constants'
 import type { Task } from '../../types'
 import RoundedBox from '../common/RoundedBox'
@@ -15,6 +15,7 @@ interface TaskFormProps {
 
 export default function TaskForm({ task, onSave, onDelete, onClose }: TaskFormProps) {
   const { settings } = useSettings();
+  const t = useTranslation();
   const [color, setColor] = useState(task?.color || COLOR_PALETTE[0]);
   const [emoji, setEmoji] = useState<string | null>(task?.emoji || null);
   const [content, setContent] = useState(task?.content || '');
@@ -37,10 +38,10 @@ export default function TaskForm({ task, onSave, onDelete, onClose }: TaskFormPr
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div className={styles.form}>
-        <div className={styles.title}>{task ? 'Edit Task' : 'New Task'}</div>
+        <div className={styles.title}>{task ? t.editTask : t.newTask}</div>
 
         <div className={styles.section}>
-          <span className={styles.label}>Color</span>
+          <span className={styles.label}>{t.color}</span>
           <div className={styles.colorGrid}>
             {COLOR_PALETTE.map(c => (
               <div
@@ -54,18 +55,26 @@ export default function TaskForm({ task, onSave, onDelete, onClose }: TaskFormPr
         </div>
 
         <div className={styles.section}>
-          <span className={styles.label}>Emoji & Content</span>
+          <span className={styles.label}>{t.emojiAndContent}</span>
           <div className={styles.previewRow}>
             <RoundedBox color={color} emoji={emoji} size="large" />
             <button
-              className={styles.emojiBtn}
+              type="button"
+              className={`${styles.emojiBtn} ${emoji ? styles.emojiBtnFilled : styles.emojiBtnEmpty}`}
               onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              aria-label={t.pickEmoji}
+              aria-expanded={showEmojiPicker}
             >
-              {emoji || '😀'}
+              <span className={styles.emojiGlyph}>{emoji || '😀'}</span>
+              <span className={styles.emojiBadge} aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
             </button>
             <input
               className={styles.input}
-              placeholder="What's the task?"
+              placeholder={t.taskPlaceholder}
               value={content}
               onChange={e => setContent(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') handleSave(); }}
@@ -87,12 +96,12 @@ export default function TaskForm({ task, onSave, onDelete, onClose }: TaskFormPr
         )}
 
         <div className={styles.actions}>
-          <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
-          <button className={styles.saveBtn} onClick={handleSave}>Save</button>
+          <button className={styles.cancelBtn} onClick={onClose}>{t.cancel}</button>
+          <button className={styles.saveBtn} onClick={handleSave}>{t.save}</button>
         </div>
 
         {task && onDelete && (
-          <button className={styles.deleteBtn} onClick={onDelete}>Delete Task</button>
+          <button className={styles.deleteBtn} onClick={onDelete}>{t.deleteTask}</button>
         )}
       </div>
     </div>

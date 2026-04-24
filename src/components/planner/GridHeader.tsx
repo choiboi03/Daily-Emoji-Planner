@@ -1,10 +1,11 @@
 import { usePlanner } from '../../context/PlannerContext'
-import { formatDisplayDate } from '../../utils/dateUtils'
+import { useTranslation } from '../../context/SettingsContext'
 import BackIcon from '../common/icons/BackIcon'
 import styles from './GridHeader.module.css'
 
 export default function GridHeader() {
   const { selectedDate, setViewMode, cancelColoring } = usePlanner();
+  const t = useTranslation();
 
   const handleBack = () => {
     cancelColoring();
@@ -14,11 +15,11 @@ export default function GridHeader() {
   return (
     <div className={styles.header}>
       <div className={styles.left}>
-        <button className={styles.backBtn} onClick={handleBack} aria-label="Back to calendar">
+        <button className={styles.backBtn} onClick={handleBack} aria-label={t.backToCalendar}>
           <BackIcon size={18} />
         </button>
         <span className={styles.date}>
-          {selectedDate ? formatDisplayDate(selectedDate) : ''}
+          {selectedDate ? t.formatDisplayDate(selectedDate) : ''}
         </span>
       </div>
     </div>

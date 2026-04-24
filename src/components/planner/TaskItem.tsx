@@ -1,7 +1,7 @@
 import type { Task, ColoringPhase } from '../../types'
 import { cellToTime } from '../../types'
 import { getTaskDuration } from '../../utils/taskUtils'
-import { i18n } from '../../constants'
+import { useTranslation } from '../../context/SettingsContext'
 import RoundedBox from '../common/RoundedBox'
 import styles from './TaskItem.module.css'
 
@@ -12,6 +12,7 @@ interface TaskItemProps {
 }
 
 export default function TaskItem({ task, coloringState, onSelect }: TaskItemProps) {
+  const t = useTranslation();
   const isActive =
     coloringState.phase !== 'idle' && coloringState.taskId === task.id;
 
@@ -22,15 +23,15 @@ export default function TaskItem({ task, coloringState, onSelect }: TaskItemProp
     ? `${cellToTime(task.startCell!)}~${cellToTime(task.endCell! + 1)}`
     : '00:00~00:00';
 
-  const durationText = duration
-    ? `${duration.hours}hr ${duration.minutes}min`
-    : '0hr 0min';
+  const durationHours = duration ? duration.hours : 0;
+  const durationMinutes = duration ? duration.minutes : 0;
+  const durationText = `${t.hoursUnit(durationHours)} ${t.minutesUnit(durationMinutes)}`;
 
   let displayContent: React.ReactNode;
   if (isActive && coloringState.phase === 'task-selected') {
-    displayContent = <span className={styles.instruction}>{i18n.selectStart}</span>;
+    displayContent = <span className={styles.instruction}>{t.selectStart}</span>;
   } else if (isActive && coloringState.phase === 'start-picked') {
-    displayContent = <span className={styles.instruction}>{i18n.selectEnd}</span>;
+    displayContent = <span className={styles.instruction}>{t.selectEnd}</span>;
   } else {
     displayContent = <span className={styles.content}>{task.content}</span>;
   }

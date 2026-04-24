@@ -18,8 +18,11 @@ export interface DayData {
   grid: GridCell[];
 }
 
+export type Language = 'en' | 'ko';
+
 export interface AppSettings {
   theme: 'light' | 'dark';
+  language: Language;
 }
 
 export interface PlannerState {

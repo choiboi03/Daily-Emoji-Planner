@@ -9,7 +9,7 @@ interface SettingsPanelProps {
 }
 
 export default function SettingsPanel({ onClose }: SettingsPanelProps) {
-  const { settings, toggleTheme } = useSettings();
+  const { settings, toggleTheme, setLanguage, t } = useSettings();
   const { state, dispatch } = usePlanner();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -31,7 +31,7 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
         document.documentElement.setAttribute('data-theme', data.settings.theme);
       }
     } catch {
-      alert('Invalid backup file');
+      alert(t.invalidBackup);
     }
     e.target.value = '';
   };
@@ -43,12 +43,12 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
   return (
     <div className={styles.overlay} onClick={handleOverlayClick}>
       <div className={styles.panel}>
-        <div className={styles.title}>Settings</div>
+        <div className={styles.title}>{t.settings}</div>
 
         <div className={styles.section}>
-          <div className={styles.sectionLabel}>Appearance</div>
+          <div className={styles.sectionLabel}>{t.appearance}</div>
           <div className={styles.row}>
-            <span className={styles.rowLabel}>Dark Mode</span>
+            <span className={styles.rowLabel}>{t.darkMode}</span>
             <div
               className={`${styles.toggle} ${settings.theme === 'dark' ? styles.active : ''}`}
               onClick={toggleTheme}
@@ -56,13 +56,32 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
               <div className={styles.toggleKnob} />
             </div>
           </div>
+          <div className={styles.row}>
+            <span className={styles.rowLabel}>{t.language}</span>
+            <div className={styles.segmented} role="group" aria-label={t.language}>
+              <button
+                type="button"
+                className={`${styles.segment} ${settings.language === 'en' ? styles.segmentActive : ''}`}
+                onClick={() => setLanguage('en')}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                className={`${styles.segment} ${settings.language === 'ko' ? styles.segmentActive : ''}`}
+                onClick={() => setLanguage('ko')}
+              >
+                한글
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className={styles.section}>
-          <div className={styles.sectionLabel}>Data</div>
+          <div className={styles.sectionLabel}>{t.data}</div>
           <div className={styles.btnRow}>
-            <button className={styles.btn} onClick={handleBackup}>Backup</button>
-            <button className={styles.btn} onClick={handleRestore}>Restore</button>
+            <button className={styles.btn} onClick={handleBackup}>{t.backup}</button>
+            <button className={styles.btn} onClick={handleRestore}>{t.restore}</button>
           </div>
           <input
             ref={fileInputRef}
@@ -74,7 +93,7 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
         </div>
 
         <div className={styles.section}>
-          <div className={styles.sectionLabel}>Links</div>
+          <div className={styles.sectionLabel}>{t.links}</div>
           <div className={styles.linkRow}>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles.link}>
               Instagram
@@ -85,7 +104,7 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
           </div>
         </div>
 
-        <button className={styles.closeBtn} onClick={onClose}>Close</button>
+        <button className={styles.closeBtn} onClick={onClose}>{t.close}</button>
       </div>
     </div>
   );

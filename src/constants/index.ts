@@ -14,12 +14,3 @@ export const COLOR_PALETTE = [
 ] as const;
 
 export const STORAGE_KEY = 'daily-emoji-planner-data';
-
-export const i18n = {
-  selectStart: 'Select start time',
-  selectEnd: 'Select end time',
-  noTasks: 'Tap + to add a task',
-  colorHint: 'Tap a task, then color the grid',
-} as const;
-
-export const DAYS_OF_WEEK = ['S', 'M', 'T', 'W', 'T', 'F', 'S'] as const;
