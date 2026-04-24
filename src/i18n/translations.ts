@@ -31,7 +31,6 @@ export interface Translations {
   data: string;
   backup: string;
   restore: string;
-  links: string;
   close: string;
   invalidBackup: string;
 
@@ -90,7 +89,6 @@ export const translations: Record<Language, Translations> = {
     data: 'Data',
     backup: 'Backup',
     restore: 'Restore',
-    links: 'Links',
     close: 'Close',
     invalidBackup: 'Invalid backup file',
 
@@ -138,7 +136,6 @@ export const translations: Record<Language, Translations> = {
     data: '데이터',
     backup: '백업',
     restore: '복원',
-    links: '링크',
     close: '닫기',
     invalidBackup: '올바르지 않은 백업 파일입니다',
 

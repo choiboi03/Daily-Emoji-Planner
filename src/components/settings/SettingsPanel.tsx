@@ -92,18 +92,6 @@ export default function SettingsPanel({ onClose }: SettingsPanelProps) {
           />
         </div>
 
-        <div className={styles.section}>
-          <div className={styles.sectionLabel}>{t.links}</div>
-          <div className={styles.linkRow}>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles.link}>
-              Instagram
-            </a>
-            <a href="https://github.com/choiboi03/Daily-Emoji-Planner" target="_blank" rel="noopener noreferrer" className={styles.link}>
-              GitHub
-            </a>
-          </div>
-        </div>
-
         <button className={styles.closeBtn} onClick={onClose}>{t.close}</button>
       </div>
     </div>
