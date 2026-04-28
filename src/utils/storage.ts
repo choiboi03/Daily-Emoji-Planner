@@ -44,36 +44,3 @@ export function getInitialState(): PlannerState {
     version: CURRENT_VERSION,
   };
 }
-
-export function exportBackup(state: PlannerState): void {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `emoji-planner-backup-${new Date().toISOString().slice(0, 10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-export function importBackup(file: File): Promise<PlannerState> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result as string) as PlannerState;
-        if (data && typeof data.version === 'number' && data.days) {
-          if (data.settings && !data.settings.language) {
-            data.settings.language = detectDefaultLanguage();
-          }
-          resolve(data);
-        } else {
-          reject(new Error('Invalid backup file'));
-        }
-      } catch {
-        reject(new Error('Failed to parse backup file'));
-      }
-    };
-    reader.onerror = () => reject(new Error('Failed to read file'));
-    reader.readAsText(file);
-  });
-}

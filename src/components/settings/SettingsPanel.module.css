@@ -82,28 +82,6 @@
   transform: translateX(20px);
 }
 
-.btnRow {
-  display: flex;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.btn {
-  flex: 1;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  transition: background var(--transition-fast);
-  text-align: center;
-}
-
-.btn:hover {
-  background: var(--hover-bg);
-}
-
 .closeBtn {
   width: 100%;
   padding: 10px;
@@ -118,10 +96,6 @@
 
 .closeBtn:hover {
   background: var(--hover-bg);
-}
-
-.hiddenInput {
-  display: none;
 }
 
 .segmented {

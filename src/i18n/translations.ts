@@ -28,11 +28,7 @@ export interface Translations {
   appearance: string;
   darkMode: string;
   language: string;
-  data: string;
-  backup: string;
-  restore: string;
   close: string;
-  invalidBackup: string;
 
   // aria labels
   addTask: string;
@@ -86,11 +82,7 @@ export const translations: Record<Language, Translations> = {
     appearance: 'Appearance',
     darkMode: 'Dark Mode',
     language: 'Language',
-    data: 'Data',
-    backup: 'Backup',
-    restore: 'Restore',
     close: 'Close',
-    invalidBackup: 'Invalid backup file',
 
     addTask: 'Add task',
     backToCalendar: 'Back to calendar',
@@ -133,11 +125,7 @@ export const translations: Record<Language, Translations> = {
     appearance: '화면',
     darkMode: '다크 모드',
     language: '언어',
-    data: '데이터',
-    backup: '백업',
-    restore: '복원',
     close: '닫기',
-    invalidBackup: '올바르지 않은 백업 파일입니다',
 
     addTask: '할 일 추가',
     backToCalendar: '달력으로 돌아가기',
